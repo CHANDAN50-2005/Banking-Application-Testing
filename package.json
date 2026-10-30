@@ -1,0 +1,26 @@
+{
+  "name": "banking-application-testing",
+  "version": "1.0.0",
+  "description": "Banking Application Testing - Mini Project for Software Testing (23SCS743), Srinivas University",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node server.js --test",
+    "test:python": "python python/test_suite.py",
+    "test:java": "javac java/*.java && java -cp java BankingTest"
+  },
+  "keywords": [
+    "banking",
+    "software-testing",
+    "test-cases",
+    "automation",
+    "srinivas-university"
+  ],
+  "author": "Chandan Gouda, Chinna B, Guruprasad Naik, Hotur Gargeya Datta",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.24.6"
+  }
+}

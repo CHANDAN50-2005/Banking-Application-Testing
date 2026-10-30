@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Bank - Banking Application Testing | Srinivas University CSE</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========================================================
+       TOP NAVBAR (MATCHING SCREENSHOTS DARK THEME)
+       ======================================================== -->
+  <nav class="nova-navbar">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      
+      <!-- Brand & Testing Switch Pill -->
+      <div class="d-flex align-items-center gap-3">
+        <a href="javascript:void(0)" onclick="switchView('dashboard')" class="nova-brand">
+          <div class="nova-brand-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <span>NOVA BANK</span>
+        </a>
+        
+        <!-- Toggle button to switch between Banking Portal & Testing Dashboard -->
+        <button id="toggleTestingModeBtn" class="mode-switch-pill" onclick="toggleTestingMode()">
+          <i class="fa-solid fa-flask-vial"></i> Testing Dashboard
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="nav-links-container d-none d-md-flex">
+        <a href="javascript:void(0)" data-nav-view="dashboard" class="nova-nav-link active">
+          <i class="fa-solid fa-gauge-high"></i> Dashboard
+        </a>
+        <a href="javascript:void(0)" data-nav-view="transfer" class="nova-nav-link">
+          <i class="fa-solid fa-money-bill-transfer"></i> Transfer
+        </a>
+        <a href="javascript:void(0)" data-nav-view="beneficiaries" class="nova-nav-link">
+          <i class="fa-solid fa-users"></i> Beneficiaries
+        </a>
+        <a href="javascript:void(0)" data-nav-view="bills" class="nova-nav-link">
+          <i class="fa-solid fa-file-invoice-dollar"></i> Bills
+        </a>
+        <a href="javascript:void(0)" data-nav-view="transactions" class="nova-nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i> Transactions
+        </a>
+      </div>
+
+      <!-- User Profile & Session Controls -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="dropdown">
+          <button class="btn p-0 border-0 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-profile-badge">
+              <div class="user-profile-avatar val-user-avatar">C</div>
+              <div class="d-none d-sm-block text-start">
+                <div class="fw-bold lh-1 val-user-name">Chandan Gouda</div>
+                <small class="text-info font-monospace val-user-usn" style="font-size:0.7rem;">01SU23CS049</small>
+              </div>
+              <i class="fa-solid fa-chevron-down ms-1 text-muted" style="font-size:0.75rem;"></i>
+            </div>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg py-2 mt-2" style="min-width: 260px; font-size: 0.88rem;">
+            <li class="px-3 py-2 border-bottom">
+              <span class="d-block text-muted small text-uppercase fw-bold">Active Account Holder</span>
+              <strong class="text-dark val-user-name">Chandan Gouda</strong>
+              <div class="text-muted small">Acc: <span class="val-user-acc font-monospace">10002010856</span></div>
+              <div class="text-success small fw-bold mt-1"><i class="fa-solid fa-circle-check me-1"></i>Verified Platinum Account</div>
+            </li>
+            <li><h6 class="dropdown-header text-uppercase mt-1">Switch Project Team Member</h6></li>
+            <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="switchActiveUser('10002010856')"><i class="fa-solid fa-user me-2 text-primary"></i>Chandan Gouda (01SU23CS049)</a></li>
+            <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="switchActiveUser('10002010851')"><i class="fa-solid fa-user me-2 text-primary"></i>Chinna B (01SU23CS051)</a></li>
+            <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="switchActiveUser('10002010870')"><i class="fa-solid fa-user me-2 text-primary"></i>Guruprasad Naik (01SU23CS070)</a></li>
+            <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="switchActiveUser('10002010877')"><i class="fa-solid fa-user me-2 text-primary"></i>Hotur Gargeya Datta (01SU23CS077)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-1" href="javascript:void(0)" onclick="switchView('testing')"><i class="fa-solid fa-flask-vial me-2 text-info"></i>Open Software Testing Suite</a></li>
+            <li><a class="dropdown-item py-1 text-danger" href="javascript:void(0)" onclick="switchView('dashboard')"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ========================================================
+       MAIN APPLICATION CONTAINER
+       ======================================================== -->
+  <main class="container-fluid py-4 px-md-4 flex-grow-1">
+
+    <!-- ========================================================
+         VIEW 1: CUSTOMER DASHBOARD (SCREENSHOT PAGE 13 TOP)
+         ======================================================== -->
+    <section id="view-dashboard" class="view-section">
+      <div class="row g-4">
+        
+        <!-- Left Column: Virtual Card, Quick Actions, Recent Activity -->
+        <div class="col-lg-7 col-xl-8">
+          
+          <!-- Virtual Debit Card -->
+          <div class="virtual-card">
+            <div class="card-top-row">
+              <div class="emv-chip"></div>
+              <div class="card-brand-badge">
+                <i class="fa-solid fa-wifi fa-rotate-90"></i>
+                <span>PLATINUM DEBIT</span>
+              </div>
+            </div>
+
+            <div class="card-balance-block">
+              <div class="card-balance-label">Total Available Balance</div>
+              <div class="card-balance-amount val-user-bal">$5,000.00 USD</div>
+            </div>
+
+            <div class="card-number-masked">
+              •••• &nbsp; •••• &nbsp; •••• &nbsp; 1001
+            </div>
+
+            <div class="card-bottom-row">
+              <div>
+                <div class="card-subtext">CARDHOLDER / USN</div>
+                <div class="card-holder-name val-user-name">CHANDAN GOUDA</div>
+                <div class="card-subtext val-user-usn">01SU23CS049</div>
+              </div>
+              <div class="text-end">
+                <div class="card-subtext">VALID THRU</div>
+                <div class="fw-bold font-monospace">12/28</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Grid -->
+          <div class="quick-actions-grid">
+            <div class="action-tile" onclick="switchView('transfer')">
+              <div class="action-tile-icon icon-transfer">
+                <i class="fa-solid fa-paper-plane"></i>
+              </div>
+              <div class="action-tile-label">Send Money</div>
+            </div>
+            
+            <div class="action-tile" onclick="switchView('bills')">
+              <div class="action-tile-icon icon-bills">
+                <i class="fa-solid fa-receipt"></i>
+              </div>
+              <div class="action-tile-label">Pay Bills</div>
+            </div>
+
+            <div class="action-tile" data-bs-toggle="modal" data-bs-target="#depositModal">
+              <div class="action-tile-icon icon-deposit">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <div class="action-tile-label">Deposit</div>
+            </div>
+
+            <div class="action-tile" onclick="switchView('transactions')">
+              <div class="action-tile-icon icon-statement">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+              <div class="action-tile-label">Statements</div>
+            </div>
+          </div>
+
+          <!-- Recent Account Activity Card -->
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <h5 class="card-title-heading">
+                <i class="fa-solid fa-clock-rotate-left text-primary"></i> Recent Account Activity
+              </h5>
+              <a href="javascript:void(0)" onclick="switchView('transactions')" class="text-decoration-none small fw-semibold text-primary">
+                View All Transactions <i class="fa-solid fa-arrow-right ms-1"></i>
+              </a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-nova table-hover">
+                <thead>
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardRecentTxnsBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Account Summary, Pending Bills, Quick Pay -->
+        <div class="col-lg-5 col-xl-4">
+          
+          <!-- Account Summary Card -->
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <h5 class="card-title-heading">
+                <i class="fa-solid fa-address-card text-primary"></i> Account Summary
+              </h5>
+              <span class="badge bg-success-subtle text-success border border-success-subtle fw-semibold">
+                <i class="fa-solid fa-circle fa-2xs me-1"></i>Active
+              </span>
+            </div>
+
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between pb-2 border-bottom">
+                <span class="text-muted small">Account Holder</span>
+                <span class="fw-bold text-dark val-user-name">Chandan Gouda</span>
+              </div>
+              <div class="d-flex justify-content-between pb-2 border-bottom">
+                <span class="text-muted small">Account Number</span>
+                <span class="fw-bold font-monospace text-dark val-user-acc">10002010856</span>
+              </div>
+              <div class="d-flex justify-content-between pb-2 border-bottom">
+                <span class="text-muted small">Account Type</span>
+                <span class="fw-semibold text-dark">Platinum Savings Account</span>
+              </div>
+              <div class="d-flex justify-content-between pb-2 border-bottom">
+                <span class="text-muted small">Current Balance</span>
+                <span class="fw-bold font-monospace text-primary val-user-bal">$5,000.00</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="text-muted small">Available Balance</span>
+                <span class="fw-bold font-monospace text-success val-user-bal">$5,000.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Bills Card -->
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <h5 class="card-title-heading">
+                <i class="fa-solid fa-bell text-warning"></i> Pending Bills
+              </h5>
+              <span class="badge bg-danger-subtle text-danger fw-semibold">3 Due</span>
+            </div>
+
+            <div class="d-flex flex-column gap-3">
+              <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-0 fw-bold small text-dark">MESCOM Electricity</h6>
+                  <small class="text-muted">Due in 3 days • Ref: ELEC-00891</small>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold text-danger font-monospace">$85.00</div>
+                  <button class="btn btn-sm btn-primary py-0 px-2 mt-1" onclick="switchView('bills')">Pay Now</button>
+                </div>
+              </div>
+
+              <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-0 fw-bold small text-dark">Airtel Xstream Fiber</h6>
+                  <small class="text-muted">Due in 6 days • Ref: BB-99201</small>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold text-danger font-monospace">$49.99</div>
+                  <button class="btn btn-sm btn-primary py-0 px-2 mt-1" onclick="switchView('bills')">Pay Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Pay Beneficiaries -->
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <h5 class="card-title-heading">
+                <i class="fa-solid fa-bolt text-warning"></i> Quick Transfer
+              </h5>
+              <a href="javascript:void(0)" onclick="switchView('beneficiaries')" class="small text-primary text-decoration-none">Manage</a>
+            </div>
+
+            <div class="d-flex justify-content-around py-2">
+              <div class="text-center" role="button" onclick="quickTransferTo('10002010851')">
+                <div class="user-profile-avatar mx-auto mb-1" style="width:44px;height:44px;font-size:1.1rem;background:#3b82f6;">CB</div>
+                <span class="small fw-semibold d-block">Chinna B</span>
+                <small class="text-muted">10002</small>
+              </div>
+              <div class="text-center" role="button" onclick="quickTransferTo('10002010870')">
+                <div class="user-profile-avatar mx-auto mb-1" style="width:44px;height:44px;font-size:1.1rem;background:#10b981;">GN</div>
+                <span class="small fw-semibold d-block">Guruprasad</span>
+                <small class="text-muted">10003</small>
+              </div>
+              <div class="text-center" role="button" onclick="quickTransferTo('10002010877')">
+                <div class="user-profile-avatar mx-auto mb-1" style="width:44px;height:44px;font-size:1.1rem;background:#8b5cf6;">HG</div>
+                <span class="small fw-semibold d-block">Hotur G</span>
+                <small class="text-muted">10004</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 2: ELECTRONIC FUND TRANSFER (SCREENSHOT PAGE 13 BOTTOM)
+         ======================================================== -->
+    <section id="view-transfer" class="view-section d-none">
+      <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+          
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <div>
+                <h4 class="card-title-heading">
+                  <i class="fa-solid fa-paper-plane text-primary"></i> Electronic Fund Transfer
+                </h4>
+                <small class="text-muted">Secure Real-time RTGS / NEFT / Internal Account Transfer</small>
+              </div>
+              <div class="text-end">
+                <small class="text-muted d-block">Current Available Balance</small>
+                <span class="fw-bold font-monospace text-success fs-5 val-user-bal">$5,000.00</span>
+              </div>
+            </div>
+
+            <form id="fundTransferForm" onsubmit="handleFundTransferSubmit(event)">
+              
+              <!-- Source Account Selection -->
+              <div class="mb-3">
+                <label class="form-nova-label">Transfer From Account</label>
+                <div class="p-3 bg-light border rounded-3 d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong class="val-user-name">Chandan Gouda</strong>
+                    <div class="small text-muted">Platinum Savings (•••• 1001) - Available: <span class="text-success fw-bold val-user-bal">$5,000.00</span></div>
+                  </div>
+                  <span class="badge bg-primary">Source</span>
+                </div>
+              </div>
+
+              <!-- Destination Mode Radio Buttons -->
+              <div class="mb-3">
+                <label class="form-nova-label">Transfer Destination</label>
+                <div class="d-flex gap-4 p-2 bg-light rounded-3 border">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="destType" id="destTypeBen" value="beneficiary" checked onchange="toggleTransferDestination('beneficiary')">
+                    <label class="form-check-label fw-semibold" for="destTypeBen">
+                      Registered Beneficiary
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="destType" id="destTypeOther" value="other" onchange="toggleTransferDestination('other')">
+                    <label class="form-check-label fw-semibold" for="destTypeOther">
+                      Other Account Number
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Registered Beneficiary Dropdown -->
+              <div id="destBeneficiaryContainer" class="mb-3">
+                <label for="transferBeneficiarySelect" class="form-nova-label">Select Beneficiary</label>
+                <select id="transferBeneficiarySelect" class="form-select form-control-nova">
+                  <!-- Populated dynamically -->
+                </select>
+                <small class="text-muted mt-1 d-block">
+                  Need to transfer to someone new? <a href="javascript:void(0)" onclick="switchView('beneficiaries')" class="text-primary text-decoration-none">Add New Beneficiary</a>
+                </small>
+              </div>
+
+              <!-- Other Account Fields (Hidden by default) -->
+              <div id="destOtherAccountContainer" class="d-none border rounded-3 p-3 bg-light mb-3">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-nova-label">Recipient Full Name</label>
+                    <input type="text" id="otherAccountName" class="form-control form-control-nova" placeholder="e.g. Robert Smith">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-nova-label">Beneficiary IFSC / Routing</label>
+                    <input type="text" id="otherAccountIfsc" class="form-control form-control-nova" placeholder="e.g. NOVA0002510">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-nova-label">Destination Bank Account Number</label>
+                    <input type="text" id="otherAccountNo" class="form-control form-control-nova" placeholder="e.g. 10002010899">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-nova-label">Re-enter Account Number</label>
+                    <input type="text" id="otherConfirmAccountNo" class="form-control form-control-nova" placeholder="Confirm account number">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transfer Amount with Quick Pills -->
+              <div class="mb-3">
+                <label class="form-nova-label">Transfer Amount ($ USD)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0 fw-bold text-muted">$</span>
+                  <input type="number" id="transferAmountInput" class="form-control form-control-nova border-start-0 fs-5 font-monospace" placeholder="0.00" step="0.01" min="1" required>
+                </div>
+                
+                <div class="quick-amount-pills">
+                  <button type="button" class="amount-pill-btn" onclick="setTransferAmount(100)">+$100</button>
+                  <button type="button" class="amount-pill-btn" onclick="setTransferAmount(500)">+$500</button>
+                  <button type="button" class="amount-pill-btn" onclick="setTransferAmount(1000)">+$1,000</button>
+                  <button type="button" class="amount-pill-btn" onclick="setTransferAmount(1500)">+$1,500</button>
+                  <button type="button" class="amount-pill-btn" onclick="setTransferAmount('MAX')">Max Balance</button>
+                </div>
+              </div>
+
+              <!-- Remarks -->
+              <div class="mb-3">
+                <label for="transferRemarksInput" class="form-nova-label">Transaction Remarks</label>
+                <input type="text" id="transferRemarksInput" class="form-control form-control-nova" placeholder="e.g. Rent Payment / Project Testing / Allowance">
+              </div>
+
+              <!-- Security PIN Input -->
+              <div class="mb-4">
+                <label for="transferPinInput" class="form-nova-label">
+                  Enter 4-Digit Security PIN <span class="badge bg-secondary-subtle text-secondary ms-1">Default: 1234</span>
+                </label>
+                <input type="password" id="transferPinInput" class="form-control form-control-nova font-monospace" style="letter-spacing: 6px; font-size: 1.2rem; max-width: 200px;" maxlength="4" placeholder="••••" required>
+              </div>
+
+              <!-- Submit & Cancel Buttons -->
+              <div class="d-flex gap-3">
+                <button type="submit" class="btn-nova-primary flex-grow-1">
+                  <i class="fa-solid fa-check-circle"></i> Confirm & Process Transfer
+                </button>
+                <button type="button" class="btn-nova-secondary" onclick="switchView('dashboard')">
+                  Cancel
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 3: BENEFICIARY MANAGEMENT (SCREENSHOT PAGE 14 TOP)
+         ======================================================== -->
+    <section id="view-beneficiaries" class="view-section d-none">
+      <div class="row g-4">
+        
+        <!-- Left Column: Add New Beneficiary Form -->
+        <div class="col-lg-5">
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <h5 class="card-title-heading">
+                <i class="fa-solid fa-user-plus text-primary"></i> + Add New Beneficiary
+              </h5>
+            </div>
+
+            <form id="addBeneficiaryForm" onsubmit="handleAddBeneficiary(event)">
+              <div class="mb-3">
+                <label class="form-nova-label">Payee Full Name *</label>
+                <input type="text" id="benPayeeName" class="form-control form-control-nova" placeholder="e.g. Robert Smith" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-nova-label">Bank Account Number (8-16 Digits) *</label>
+                <input type="text" id="benAccountNo" class="form-control form-control-nova font-monospace" placeholder="e.g. 100010002" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-nova-label">Confirm Bank Account Number *</label>
+                <input type="text" id="benConfirmAccountNo" class="form-control form-control-nova font-monospace" placeholder="Re-enter account number" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-nova-label">Bank Name *</label>
+                <input type="text" id="benBankName" class="form-control form-control-nova" placeholder="e.g. Chase / HDFC / Wells Fargo / Nova Bank" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-nova-label">Branch IFSC / Routing Code *</label>
+                <input type="text" id="benIfscCode" class="form-control form-control-nova text-uppercase font-monospace" placeholder="e.g. SBIN0002510" required>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-nova-label">Nickname / Label (Optional)</label>
+                <input type="text" id="benNickname" class="form-control form-control-nova" placeholder="e.g. College Roommate / Landlord">
+              </div>
+
+              <button type="submit" class="btn-nova-primary w-100">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save Beneficiary
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Saved Beneficiaries List -->
+        <div class="col-lg-7">
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <h5 class="card-title-heading">
+                <i class="fa-solid fa-address-book text-primary"></i> Saved Beneficiaries (<span id="beneficiariesCountBadge">0</span>)
+              </h5>
+            </div>
+
+            <div id="savedBeneficiariesList">
+              <!-- Dynamically populated or empty state -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 4: UTILITY BILL PAYMENT CENTER (SCREENSHOT PAGE 14 BOTTOM)
+         ======================================================== -->
+    <section id="view-bills" class="view-section d-none">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+          
+          <div class="nova-card">
+            <div class="card-title-bar">
+              <div>
+                <h4 class="card-title-heading">
+                  <i class="fa-solid fa-bolt-lightning text-warning"></i> Utility Bill Payment Center
+                </h4>
+                <small class="text-muted">Pay electricity, water, internet, and telecom bills directly from your account balance.</small>
+              </div>
+              <div class="text-end">
+                <small class="text-muted d-block">Available Balance</small>
+                <span class="fw-bold font-monospace text-success fs-5 val-user-bal">$5,000.00</span>
+              </div>
+            </div>
+
+            <form id="billPaymentForm" onsubmit="handleBillPaymentSubmit(event)">
+              
+              <div class="mb-3">
+                <label class="form-nova-label">Select Utility Category & Provider</label>
+                <select id="billerSelect" class="form-select form-control-nova" required>
+                  <option value="">-- Choose Utility Biller --</option>
+                  <option value="MESCOM Electricity - Mangaluru">Electricity: MESCOM - Mangaluru</option>
+                  <option value="BESCOM Electricity - Bengaluru">Electricity: BESCOM - Bengaluru</option>
+                  <option value="Airtel Xstream Fiber Broadband">Internet: Airtel Xstream Fiber</option>
+                  <option value="Jio Fiber Broadband">Internet: Jio Fiber</option>
+                  <option value="City Water Board Supply">Water: Municipal Water Authority</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-nova-label">Pay by Custom Bill Reference Number</label>
+                <input type="text" id="billRefNumber" class="form-control form-control-nova font-monospace" placeholder="e.g. ELECTRICITY-00891" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-nova-label">Bill Amount ($ USD)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white fw-bold text-muted">$</span>
+                  <input type="number" id="billAmountInput" class="form-control form-control-nova font-monospace fs-5" placeholder="85.00" step="0.01" min="1" required>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-nova-label">Enter 4-Digit Security PIN (Default: 1234)</label>
+                <input type="password" id="billPinInput" class="form-control form-control-nova font-monospace" style="letter-spacing: 6px; font-size: 1.2rem; max-width: 200px;" maxlength="4" placeholder="••••" required>
+              </div>
+
+              <button type="submit" class="btn-nova-primary w-100 py-2 fs-6">
+                <i class="fa-solid fa-lock me-2"></i> Authorize Bill Payment
+              </button>
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 5: TRANSACTION LEDGER & STATEMENTS (SCREENSHOT PAGE 15 TOP)
+         ======================================================== -->
+    <section id="view-transactions" class="view-section d-none">
+      <div class="nova-card">
+        
+        <div class="card-title-bar">
+          <div>
+            <h4 class="card-title-heading">
+              <i class="fa-solid fa-receipt text-primary"></i> Transaction Ledger & Statements
+            </h4>
+            <small class="text-muted">Complete historical audit trail of credits, debits, transfers, and utility payments</small>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary" onclick="exportStatementCSV()">
+              <i class="fa-solid fa-download me-1"></i> Export CSV
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+              <i class="fa-solid fa-print me-1"></i> Print Statement
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls Bar -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="fa-solid fa-search text-muted"></i></span>
+              <input type="text" id="ledgerSearchInput" class="form-control form-control-nova" placeholder="Search by Txn ID, Description, or Reference..." onkeyup="renderTransactionsView()">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <select id="ledgerTypeFilter" class="form-select form-control-nova" onchange="renderTransactionsView()">
+              <option value="ALL">All Transaction Categories</option>
+              <option value="DEPOSIT">Deposits Only</option>
+              <option value="TRANSFER">Fund Transfers Only</option>
+              <option value="BILL_PAYMENT">Utility Bill Payments</option>
+              <option value="WITHDRAWAL">Cash Withdrawals</option>
+            </select>
+          </div>
+          <div class="col-md-3 text-end">
+            <div class="p-2 bg-light border rounded-3 text-center">
+              <small class="text-muted d-block">Ledger Balance</small>
+              <strong class="font-monospace text-primary val-user-bal">$5,000.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ledger Table -->
+        <div class="table-responsive">
+          <table class="table table-nova table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Txn Reference ID</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Balance After</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 6: SOFTWARE TESTING DASHBOARD (SCREENSHOT PAGE 15 MIDDLE & BOTTOM)
+         ======================================================== -->
+    <section id="view-testing" class="view-section d-none">
+      
+      <!-- Testing Header Bar -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h3 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-vial-circle-check text-primary"></i> Software Testing Dashboard
+          </h3>
+          <p class="text-muted mb-0 small">
+            Automated & Manual Test Execution Engine | Real-time Test Reports & Metrics | Subject: 23SCS743
+          </p>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-primary" onclick="runAutomatedTestSuite()">
+            <i class="fa-solid fa-play me-1"></i> Run Automated Test Suite (45 Tests)
+          </button>
+          <button class="btn btn-outline-secondary" onclick="resetTestSuite()">
+            <i class="fa-solid fa-arrow-rotate-left me-1"></i> Reset All
+          </button>
+          <button class="btn btn-outline-success" onclick="exportTestCSV()">
+            <i class="fa-solid fa-file-csv me-1"></i> Export CSV
+          </button>
+          <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#addTestCaseModal">
+            <i class="fa-solid fa-plus me-1"></i> Add Test Case
+          </button>
+          <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reportModal">
+            <i class="fa-solid fa-print me-1"></i> Full Report
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Metrics Row (Matching 45 Tests, 100.0% Pass Rate in Page 15) -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-total">
+          <div class="kpi-label">Total Tests Executed</div>
+          <div class="kpi-value" id="kpiTotalTests">45</div>
+          <div class="kpi-sub">Test specifications defined</div>
+        </div>
+
+        <div class="kpi-card kpi-passed">
+          <div class="kpi-label">Tests Passed</div>
+          <div class="kpi-value" id="kpiPassedTests">45</div>
+          <div class="kpi-sub text-success">Verified with zero defects</div>
+        </div>
+
+        <div class="kpi-card kpi-failed">
+          <div class="kpi-label">Tests Failed</div>
+          <div class="kpi-value" id="kpiFailedTests">0</div>
+          <div class="kpi-sub text-danger">Functional regressions</div>
+        </div>
+
+        <div class="kpi-card kpi-blocked">
+          <div class="kpi-label">Blocked / Skipped</div>
+          <div class="kpi-value" id="kpiBlockedTests">0</div>
+          <div class="kpi-sub text-muted">Test prerequisites met</div>
+        </div>
+
+        <div class="kpi-card kpi-rate">
+          <div class="kpi-label">Overall Pass Rate</div>
+          <div class="kpi-value" id="kpiPassRate">100.0%</div>
+          <div class="kpi-sub text-primary">Academic Benchmark Quality</div>
+        </div>
+      </div>
+
+      <!-- Visual Charts Row -->
+      <div class="row g-4 mb-4">
+        
+        <!-- Execution Status Breakdown (Donut Chart) -->
+        <div class="col-lg-4">
+          <div class="nova-card h-100">
+            <div class="card-title-bar">
+              <h6 class="card-title-heading">
+                <i class="fa-solid fa-chart-pie text-primary"></i> Execution Status Breakdown
+              </h6>
+            </div>
+            
+            <div class="position-relative" style="height: 220px;">
+              <canvas id="statusDonutChart"></canvas>
+              <div class="position-absolute top-50 start-50 translate-middle text-center" style="pointer-events: none; margin-top: -10px;">
+                <h3 class="fw-bold mb-0 text-success" id="donutCenterRate">100%</h3>
+                <small class="text-muted" style="font-size:0.7rem;">Pass Rate</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Module-Wise Pass / Fail Breakdown (Bar Chart) -->
+        <div class="col-lg-8">
+          <div class="nova-card h-100">
+            <div class="card-title-bar">
+              <h6 class="card-title-heading">
+                <i class="fa-solid fa-chart-column text-primary"></i> Module-Wise Pass / Fail Breakdown
+              </h6>
+            </div>
+            
+            <div style="height: 220px;">
+              <canvas id="moduleBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Module Filter Tabs Bar -->
+      <div class="module-tabs-bar">
+        <button class="module-tab-pill active" data-module="ALL" onclick="filterModule('ALL', this)">All Modules (45)</button>
+        <button class="module-tab-pill" data-module="User Registration" data-label="Registration" onclick="filterModule('User Registration', this)">Registration (6)</button>
+        <button class="module-tab-pill" data-module="Authentication" data-label="Authentication" onclick="filterModule('Authentication', this)">Authentication (6)</button>
+        <button class="module-tab-pill" data-module="Account Management" data-label="Account Mgmt" onclick="filterModule('Account Management', this)">Account Mgmt (5)</button>
+        <button class="module-tab-pill" data-module="Balance Enquiry" data-label="Balance Enquiry" onclick="filterModule('Balance Enquiry', this)">Balance Enquiry (4)</button>
+        <button class="module-tab-pill" data-module="Deposit Module" data-label="Deposit" onclick="filterModule('Deposit Module', this)">Deposit (4)</button>
+        <button class="module-tab-pill" data-module="Withdrawal Module" data-label="Withdrawal" onclick="filterModule('Withdrawal Module', this)">Withdrawal (4)</button>
+        <button class="module-tab-pill" data-module="Fund Transfer" data-label="Fund Transfer" onclick="filterModule('Fund Transfer', this)">Fund Transfer (6)</button>
+        <button class="module-tab-pill" data-module="Beneficiaries" data-label="Beneficiaries" onclick="filterModule('Beneficiaries', this)">Beneficiaries (4)</button>
+        <button class="module-tab-pill" data-module="Bill Payments" data-label="Bill Payments" onclick="filterModule('Bill Payments', this)">Bill Payments (4)</button>
+        <button class="module-tab-pill" data-module="Security & Validation" data-label="Security" onclick="filterModule('Security & Validation', this)">Security (2)</button>
+      </div>
+
+      <!-- Search & Test Cases Table Matrix -->
+      <div class="nova-card">
+        <div class="card-title-bar">
+          <div class="flex-grow-1 me-3">
+            <input type="text" id="testSearchInput" class="form-control form-control-nova" placeholder="Filter test cases by ID, scenario, or keyword..." onkeyup="renderTestMatrix()">
+          </div>
+          <span class="badge bg-light text-muted border font-monospace py-2 px-3">
+            Showing Live Test Assertions
+          </span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-nova table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Test ID</th>
+                <th>Module</th>
+                <th>Test Scenario / Description</th>
+                <th>Category</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="testMatrixBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       MODALS: DEPOSIT, DIGITAL RECEIPT, TEST RUNNER, ADD TEST CASE, REPORT
+       ======================================================== -->
+
+  <!-- 1. Deposit Funds Modal -->
+  <div class="modal fade" id="depositModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold text-dark"><i class="fa-solid fa-wallet text-success me-2"></i>Deposit Funds</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="depositForm" onsubmit="handleDepositSubmit(event)">
+          <div class="modal-body">
+            <p class="text-muted small">Simulate credit deposit to verify balance increment and ledger entry creation.</p>
+            <div class="mb-3">
+              <label class="form-nova-label">Deposit Amount ($ USD)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white fw-bold">$</span>
+                <input type="number" id="depositAmountInput" class="form-control form-control-nova fs-5 font-monospace" placeholder="2000.00" step="0.01" min="1" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-nova-label">Deposit Description / Reference</label>
+              <input type="text" id="depositRemarksInput" class="form-control form-control-nova" placeholder="e.g. Wire Transfer / ATM Cash Deposit">
+            </div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success px-4"><i class="fa-solid fa-check me-1"></i>Deposit Funds</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Digital Receipt Modal -->
+  <div class="modal fade" id="receiptModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-body p-4">
+          <div class="text-center mb-4">
+            <div class="mx-auto mb-2 text-success" style="font-size: 3rem;">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h4 class="fw-bold mb-1">Transaction Successful</h4>
+            <span class="badge bg-success-subtle text-success border border-success-subtle" id="receiptStatus">COMPLETED</span>
+          </div>
+
+          <div class="p-3 bg-light rounded-3 d-flex flex-column gap-2 font-monospace small mb-4">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Transaction ID:</span>
+              <strong id="receiptTxnId">TXN-000000</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Timestamp:</span>
+              <span id="receiptDate">2026-10-30 00:00:00</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Reference:</span>
+              <span id="receiptRef">REF-000000</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Description:</span>
+              <span id="receiptDesc">Fund Transfer</span>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex justify-content-between fs-6">
+              <span class="text-muted">Amount Processed:</span>
+              <strong class="text-primary" id="receiptAmount">$0.00</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Remaining Balance:</span>
+              <strong class="text-success" id="receiptBalance">$0.00</strong>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-light flex-grow-1" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary flex-grow-1" onclick="window.print()">
+              <i class="fa-solid fa-print me-1"></i> Print Receipt
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Automated Test Runner Live Progress Modal -->
+  <div class="modal fade" id="testRunnerModal" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">
+            <i class="fa-solid fa-flask-vial text-primary me-2"></i>Running Automated Test Suite
+          </h5>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2 d-flex justify-content-between align-items-center">
+            <span class="small text-muted" id="testRunnerStep">Initializing test runner engine...</span>
+          </div>
+          
+          <div class="progress mb-3" style="height: 14px;">
+            <div id="testProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%">0%</div>
+          </div>
+
+          <div id="testRunnerLog" class="p-3 bg-dark text-light rounded-3 font-monospace small" style="height: 180px; overflow-y: auto;">
+            <!-- Live console lines -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Add Custom Test Case Modal -->
+  <div class="modal fade" id="addTestCaseModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold text-dark"><i class="fa-solid fa-plus-circle text-primary me-2"></i>Add New Test Case</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="addTestCaseForm" onsubmit="handleAddTestCase(event)">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-nova-label">Target Module</label>
+              <select id="newTcModule" class="form-select form-control-nova" required>
+                <option value="User Registration">User Registration</option>
+                <option value="Authentication">Authentication</option>
+                <option value="Account Management">Account Management</option>
+                <option value="Balance Enquiry">Balance Enquiry</option>
+                <option value="Deposit Module">Deposit Module</option>
+                <option value="Withdrawal Module">Withdrawal Module</option>
+                <option value="Fund Transfer">Fund Transfer</option>
+                <option value="Beneficiaries">Beneficiaries</option>
+                <option value="Bill Payments">Bill Payments</option>
+                <option value="Security & Validation">Security & Validation</option>
+                <option value="Boundary & Edge Cases">Boundary & Edge Cases</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-nova-label">Test Scenario Description</label>
+              <input type="text" id="newTcScenario" class="form-control form-control-nova" placeholder="e.g. Verify transfer timeout handling under high latency" required>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label class="form-nova-label">Category / Type</label>
+                <select id="newTcCategory" class="form-select form-control-nova">
+                  <option value="Functional">Functional</option>
+                  <option value="Security">Security</option>
+                  <option value="Boundary">Boundary</option>
+                  <option value="Integration">Integration</option>
+                  <option value="Performance">Performance</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-nova-label">Input Parameters</label>
+                <input type="text" id="newTcInput" class="form-control form-control-nova" placeholder="e.g. amount=-10, pin=9999">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-nova-label">Expected Result</label>
+              <input type="text" id="newTcExpected" class="form-control form-control-nova" placeholder="e.g. 400 Bad Request: Invalid Amount" required>
+            </div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save me-1"></i>Save Test Case</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Academic Project Test Report Modal -->
+  <div class="modal fade" id="reportModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold">
+            <i class="fa-solid fa-file-contract text-primary me-2"></i>Academic Software Testing Report
+          </h5>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-primary" onclick="window.print()"><i class="fa-solid fa-print me-1"></i>Print Report</button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+        </div>
+        <div class="modal-body p-4" id="printableReport">
+          
+          <!-- University Header -->
+          <div class="text-center pb-4 mb-4 border-bottom">
+            <h4 class="fw-bold mb-1">SRINIVAS UNIVERSITY</h4>
+            <h6 class="text-muted mb-1">INSTITUTE OF ENGINEERING & TECHNOLOGY, MUKKA, MANGALURU - 574146</h6>
+            <div class="fw-semibold text-primary">DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</div>
+            <div class="badge bg-dark mt-2 p-2">SOFTWARE TESTING (23SCS743) - MINIPROJECT REPORT</div>
+            <h3 class="fw-bold mt-3 text-uppercase">BANKING APPLICATION TESTING</h3>
+          </div>
+
+          <!-- Academic Metadata -->
+          <div class="row g-3 mb-4 p-3 bg-light rounded-3">
+            <div class="col-md-6">
+              <div class="small text-muted text-uppercase fw-bold">Submitted By (Students):</div>
+              <div class="fw-semibold">1. CHANDAN GOUDA (01SU23CS049)</div>
+              <div class="fw-semibold">2. CHINNA B (01SU23CS051)</div>
+              <div class="fw-semibold">3. GURUPRASAD NAIK (01SU23CS070)</div>
+              <div class="fw-semibold">4. HOTUR GARGEYA DATTA (01SU23CS077)</div>
+            </div>
+            <div class="col-md-6">
+              <div class="small text-muted text-uppercase fw-bold">Under the Guidance Of:</div>
+              <div class="fw-semibold">Mrs. Varsha G Bangera (Assistant Professor, Dept. of CSE)</div>
+              <div class="small text-muted text-uppercase fw-bold mt-2">Head of Department:</div>
+              <div class="fw-semibold">Dr. Shifana Begum (HOD, CSE)</div>
+              <div class="small text-muted text-uppercase fw-bold mt-2">Academic Year:</div>
+              <div class="fw-semibold">2026-2027</div>
+            </div>
+          </div>
+
+          <!-- Summary Metrics -->
+          <h5 class="fw-bold mb-3">Executive Test Execution Summary</h5>
+          <div class="row g-3 mb-4 text-center">
+            <div class="col-3">
+              <div class="p-3 border rounded-3 bg-white">
+                <div class="small text-muted">Total Tests</div>
+                <h3 class="fw-bold mb-0">45</h3>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="p-3 border rounded-3 bg-white text-success">
+                <div class="small text-muted">Passed</div>
+                <h3 class="fw-bold mb-0">45</h3>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="p-3 border rounded-3 bg-white text-danger">
+                <div class="small text-muted">Failed</div>
+                <h3 class="fw-bold mb-0">0</h3>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="p-3 border rounded-3 bg-white text-primary">
+                <div class="small text-muted">Pass Rate</div>
+                <h3 class="fw-bold mb-0">100.0%</h3>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-muted small">
+            The Banking Application Testing suite verified 45 automated test scenarios covering User Registration, Login & Authentication, Account Management, Balance Enquiry, Cash Deposits, Withdrawals, Fund Transfers, Beneficiary Management, Utility Bill Payments, and Boundary/Security conditions without failure.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1090">
+    <div id="actionToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="actionToastBody">
+          Action completed successfully.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       FOOTER (MATCHING SCREENSHOT CAPTIONS)
+       ======================================================== -->
+  <footer class="nova-footer">
+    <div class="container-fluid footer-inner">
+      <div>
+        <strong class="text-dark">Online Banking System</strong> — Software Testing Mini Project | Developed by Srinivas University CSE
+      </div>
+      <div>
+        Supervised by <strong class="text-dark">Mrs. Varsha G Bangera</strong> &nbsp;|&nbsp;
+        <span class="badge bg-success-subtle text-success border border-success-subtle pass-rate-indicator">
+          Testing Suite: 45 Test Cases | Pass Rate: 100%
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <script src="js/data.js"></script>
+  <script src="js/testing.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

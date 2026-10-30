@@ -1,0 +1,702 @@
+/* ==========================================================================
+   NOVA BANK - MODERN FINTECH & SOFTWARE TESTING DASHBOARD STYLES
+   Designed to match the exact screenshots from Srinivas University Project Report
+   ========================================================================== */
+
+:root {
+  --primary-navy: #0d1e33;
+  --primary-navy-dark: #081321;
+  --primary-navy-light: #162f4d;
+  --accent-blue: #1e70e9;
+  --accent-blue-hover: #155bc0;
+  --accent-cyan: #00d2ff;
+  --accent-cyan-glow: rgba(0, 210, 255, 0.25);
+  --success-green: #10b981;
+  --success-green-bg: #ecfdf5;
+  --danger-red: #ef4444;
+  --danger-red-bg: #fef2f2;
+  --warning-amber: #f59e0b;
+  --warning-amber-bg: #fffbeb;
+  --bg-slate: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #1e293b;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  --border-color: #e2e8f0;
+  --card-radius: 14px;
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --transition-speed: 0.25s;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-slate);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================
+   TOP NAVIGATION BAR (DARK THEME)
+   ========================================== */
+.nova-navbar {
+  background: linear-gradient(180deg, var(--primary-navy) 0%, var(--primary-navy-dark) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.nova-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.nova-brand-icon {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  box-shadow: 0 0 12px var(--accent-cyan-glow);
+}
+
+.mode-switch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.4);
+  border-radius: 50px;
+  color: var(--accent-cyan);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-speed);
+  cursor: pointer;
+}
+
+.mode-switch-pill:hover {
+  background: rgba(0, 210, 255, 0.25);
+  color: #ffffff;
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
+}
+
+.mode-switch-pill.testing-active {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.4);
+}
+
+.nav-links-container {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nova-nav-link {
+  color: #94a3b8;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nova-nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nova-nav-link.active {
+  color: #ffffff;
+  background: rgba(30, 112, 233, 0.35);
+  border: 1px solid rgba(30, 112, 233, 0.6);
+  font-weight: 600;
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  font-size: 0.85rem;
+}
+
+.user-profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #ffffff;
+}
+
+/* ==========================================
+   METALLIC DEBIT / CREDIT CARD
+   ========================================== */
+.virtual-card {
+  background: linear-gradient(135deg, #0b1f3a 0%, #163e6e 50%, #0d284a 100%);
+  border-radius: 20px;
+  padding: 26px 28px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px -5px rgba(11, 31, 58, 0.45), 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.virtual-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+}
+
+.virtual-card::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 30%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 112, 233, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.emv-chip {
+  width: 44px;
+  height: 32px;
+  background: linear-gradient(135deg, #e6c875 0%, #d4af37 50%, #aa8624 100%);
+  border-radius: 6px;
+  position: relative;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.emv-chip::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.card-brand-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-balance-block {
+  margin: 18px 0;
+}
+
+.card-balance-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.card-balance-amount {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-number-masked {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 4px;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+
+.card-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-holder-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #f1f5f9;
+}
+
+.card-subtext {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+/* ==========================================
+   QUICK ACTION BUTTONS ROW
+   ========================================== */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 18px 0 24px 0;
+}
+
+.action-tile {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 14px 10px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-speed);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+}
+
+.action-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-blue);
+  box-shadow: 0 8px 22px rgba(30, 112, 233, 0.15);
+  color: var(--accent-blue);
+}
+
+.action-tile-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: transform var(--transition-speed);
+}
+
+.action-tile:hover .action-tile-icon {
+  transform: scale(1.1);
+}
+
+.icon-transfer { background: #eff6ff; color: #2563eb; }
+.icon-bills { background: #fdf2f8; color: #db2777; }
+.icon-deposit { background: #ecfdf5; color: #059669; }
+.icon-statement { background: #f5f3ff; color: #7c3aed; }
+
+.action-tile-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ==========================================
+   CARDS & CONTAINERS
+   ========================================== */
+.nova-card {
+  background: var(--bg-card);
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.card-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-title-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* ==========================================
+   METRIC / STATS CARDS (FOR TESTING DASHBOARD)
+   ========================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-color);
+  padding: 16px 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.kpi-total::before { background: #3b82f6; }
+.kpi-passed::before { background: var(--success-green); }
+.kpi-failed::before { background: var(--danger-red); }
+.kpi-blocked::before { background: var(--warning-amber); }
+.kpi-rate::before { background: var(--accent-cyan); }
+
+.kpi-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.kpi-total .kpi-value { color: var(--primary-navy); }
+.kpi-passed .kpi-value { color: var(--success-green); }
+.kpi-failed .kpi-value { color: var(--danger-red); }
+.kpi-blocked .kpi-value { color: var(--warning-amber); }
+.kpi-rate .kpi-value { color: var(--accent-blue); }
+
+.kpi-sub {
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  margin-top: 4px;
+}
+
+/* ==========================================
+   TABLES & BADGES
+   ========================================== */
+.table-nova {
+  width: 100%;
+  margin-bottom: 0;
+  font-size: 0.88rem;
+}
+
+.table-nova thead th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+
+.table-nova tbody td {
+  padding: 13px 14px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-primary);
+}
+
+.table-nova tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.badge-status {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-pass {
+  background-color: var(--success-green-bg);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-fail {
+  background-color: var(--danger-red-bg);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-completed {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+.badge-pending {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+
+.amount-positive {
+  color: #059669;
+  font-weight: 700;
+}
+
+.amount-negative {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* ==========================================
+   FORM CONTROLS & PILLS
+   ========================================== */
+.form-nova-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.form-control-nova {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  transition: all var(--transition-speed);
+}
+
+.form-control-nova:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(30, 112, 233, 0.15);
+  outline: none;
+}
+
+.quick-amount-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.amount-pill-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 50px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+.amount-pill-btn:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+}
+
+.btn-nova-primary {
+  background: linear-gradient(135deg, #1e70e9 0%, #155bc0 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 22px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(30, 112, 233, 0.3);
+  transition: all var(--transition-speed);
+  cursor: pointer;
+}
+
+.btn-nova-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 6px 18px rgba(30, 112, 233, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-nova-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 11px 20px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-speed);
+  cursor: pointer;
+}
+
+.btn-nova-secondary:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+/* ==========================================
+   MODULE FILTER TABS (TESTING DASHBOARD)
+   ========================================== */
+.module-tabs-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.module-tab-pill {
+  white-space: nowrap;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+.module-tab-pill:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.module-tab-pill.active {
+  background: var(--primary-navy);
+  border-color: var(--primary-navy);
+  color: #ffffff;
+}
+
+/* ==========================================
+   FOOTER (MATCHING REPORT TEXT)
+   ========================================== */
+.nova-footer {
+  margin-top: auto;
+  background: #ffffff;
+  border-top: 1px solid var(--border-color);
+  padding: 14px 24px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ==========================================
+   PRINT REPORT STYLING
+   ========================================== */
+@media print {
+  .nova-navbar, .quick-actions-grid, .mode-switch-pill, .btn, button, .no-print {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+  }
+  .nova-card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
